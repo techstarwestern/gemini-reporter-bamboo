@@ -34,10 +34,10 @@ var Runner = inherit({
     _onBegin: function() {
 		this.startTime = new Date();
 		this.results = {
-			status:{},
+			stats:{},
 			passes:[],
 			failures:[],
-			skips:[]
+			skipped:[]
 		};
     },
 
@@ -73,7 +73,7 @@ var Runner = inherit({
 		warn.warning = result.message;
 		warn.browserID = result.browserId;
 		warn.duration = 0;
-		this.results.skips.push(warn);
+		this.results.skipped.push(warn);
     },
 
     _onSkipState: function(result) {
@@ -83,7 +83,7 @@ var Runner = inherit({
 		warn.warning = result.message;
 		warn.browserID = result.browserId;
 		warn.duration = 0;
-		this.results.skips.push(warn);
+		this.results.skipped.push(warn);
     },
 
     _onInfo: function(result) {
@@ -91,19 +91,19 @@ var Runner = inherit({
     },
 
     _onEnd: function() {
-        var total = this.results.failures.length + this.results.passes.length + this.results.skips.length;
+        var total = this.results.failures.length + this.results.passes.length + this.results.skipped.length;
         console.log('Total: %s Passed: %s Failed: %s Skipped: %s',
             chalk.underline(total),
             chalk.green(this.results.passes.length),
             chalk.red(this.results.failures.length),
-            chalk.cyan(this.results.skips.length)
+            chalk.cyan(this.results.skipped.length)
         );
 		var endTime = new Date();
-		this.results.status = {
+		this.results.stats = {
 			"suites": 1,
 			"tests": total,
 			"passes": this.results.passes.length,
-			"pending": this.results.skips.length,
+			"pending": this.results.skipped.length,
 			"failures": this.results.failures.length,
 			"start": this.startTime.toISOString(),
 			"end": endTime.toISOString(),
