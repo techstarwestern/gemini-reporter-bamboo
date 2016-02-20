@@ -1,0 +1,38 @@
+{
+  "name": "gemini-reporter-bamboo",
+  "version": "1.0.0",
+  "description": "Plugin for Gemini which enables reporting test results to Bamboo.",
+  "main": "bamboo.js",
+  "dependencies": {
+    "chalk": "^0.5.1",
+    "inherit": "~2.2.1",
+    "lodash": "^3.6.0"
+  },
+  "devDependencies": {
+  },
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/starsoftqa/gemini-reporter-bamboo.git"
+  },
+  "contributors": [
+    {
+      "name": "Conrad Rider",
+      "email": "cride5@crider.co.uk"
+    },
+    {
+      "name": "Trieu Tran",
+      "email": "trieu.ssqa@gmail.com"
+    }
+  ],
+  "keywords":[
+    "gemini-plugin",
+    "mocha",
+    "bamboo",
+    "gemini",
+    "starsoftqa"
+  ],
+  "license": "MIT",
+  "homepage": "http://www.starsoftqa.com"
+}
