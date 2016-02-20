@@ -1,6 +1,6 @@
 {
   "name": "gemini-reporter-bamboo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Plugin for Gemini which enables reporting test results to Bamboo.",
   "main": "bamboo.js",
   "dependencies": {
@@ -8,10 +8,8 @@
     "inherit": "~2.2.1",
     "lodash": "^3.6.0"
   },
-  "devDependencies": {
-  },
-  "scripts": {
-  },
+  "devDependencies": {},
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/starsoftqa/gemini-reporter-bamboo.git"
@@ -26,7 +24,7 @@
       "email": "trieu.ssqa@gmail.com"
     }
   ],
-  "keywords":[
+  "keywords": [
     "gemini-plugin",
     "mocha",
     "bamboo",
