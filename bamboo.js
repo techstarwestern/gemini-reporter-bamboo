@@ -32,7 +32,7 @@ var Runner = inherit({
     },
 
     _onBegin: function() {
-		this.startTime = new Date();
+		this.beginTestTime = this.startTime = new Date();
 		this.results = {
 			stats:{},
 			passes:[],
@@ -52,7 +52,7 @@ var Runner = inherit({
 		pass.fullTitle = result.suite.path.join(' ');
 		pass.error = result.message;
 		pass.browserID = result.browserId;
-		pass.duration = 0;
+		pass.duration = this._getDuration();
 		this.results.passes.push(pass);
     },
 
@@ -62,7 +62,7 @@ var Runner = inherit({
 		error.fullTitle = result.suite.path.join(' ');
 		error.error = result.message;
 		error.browserID = result.browserId;
-		error.duration = 0;
+		error.duration = this._getDuration();
 		this.results.failures.push(error);
     },
 
@@ -72,7 +72,7 @@ var Runner = inherit({
 		warn.fullTitle = result.suite.path.join(' ');
 		warn.warning = result.message;
 		warn.browserID = result.browserId;
-		warn.duration = 0;
+		warn.duration = this._getDuration();
 		this.results.skipped.push(warn);
     },
 
@@ -82,7 +82,7 @@ var Runner = inherit({
 		warn.fullTitle = result.suite.path.join(' ');
 		warn.warning = result.message;
 		warn.browserID = result.browserId;
-		warn.duration = 0;
+		warn.duration = this._getDuration();
 		this.results.skipped.push(warn);
     },
 
@@ -107,11 +107,18 @@ var Runner = inherit({
 			"failures": this.results.failures.length,
 			"start": this.startTime.toISOString(),
 			"end": endTime.toISOString(),
-			"duration": ~~((endTime - this.startTime) / 1000)
+			"duration": Math.round((endTime - this.startTime) / 1000)
 		};
 		// Write test results as parsable JSON file 
 		fs.writeFile('gemini-bamboo.json', JSON.stringify(this.results, null, 2));
-    }
+    },
+	
+	_getDuration: function(){
+		var now = new Date();
+		var duration = Math.round((now - this.beginTestTime) / 1000);
+		this.beginTestTime = now;
+		return duration;
+	}
 
 });
 
