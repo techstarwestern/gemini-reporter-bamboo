@@ -33,6 +33,7 @@ var Runner = inherit({
 
     _onBegin: function() {
 		this.beginTestTime = this.startTime = new Date();
+		this.suiteSet = {};
 		this.results = {
 			stats:{},
 			passes:[],
@@ -47,42 +48,25 @@ var Runner = inherit({
     },
 
     _onCapture: function(result) {
-		var pass = {};
-		pass.title = result.state.name;
-		pass.fullTitle = result.suite.path.join(' ');
-		pass.error = result.message;
-		pass.browserID = result.browserId;
-		pass.duration = this._getDuration();
+		var pass = this._createResult(result);
 		this.results.passes.push(pass);
     },
 
     _onError: function(result) {
-		var error = {};
-		error.title = result.state.name;
-		error.fullTitle = result.suite.path.join(' ');
+		var error = this._createResult(result);
 		error.error = result.message;
-		error.browserID = result.browserId;
-		error.duration = this._getDuration();
 		this.results.failures.push(error);
     },
 
     _onWarning: function(result) {
-		var warn = {};
-		warn.title = result.state.name;
-		warn.fullTitle = result.suite.path.join(' ');
+		var warn = this._createResult(result);
 		warn.warning = result.message;
-		warn.browserID = result.browserId;
-		warn.duration = this._getDuration();
 		this.results.skipped.push(warn);
     },
 
     _onSkipState: function(result) {
-		var warn = {};
-		warn.title = result.state.name;
-		warn.fullTitle = result.suite.path.join(' ');
+		var warn = this._createResult(result);
 		warn.warning = result.message;
-		warn.browserID = result.browserId;
-		warn.duration = this._getDuration();
 		this.results.skipped.push(warn);
     },
 
@@ -99,8 +83,12 @@ var Runner = inherit({
             chalk.cyan(this.results.skipped.length)
         );
 		var endTime = new Date();
+		var suites = 0;
+		for(var k in this.suiteSet){
+			suites++;
+		}
 		this.results.stats = {
-			"suites": 1,
+			"suites": suites,
 			"tests": total,
 			"passes": this.results.passes.length,
 			"pending": this.results.skipped.length,
@@ -112,6 +100,16 @@ var Runner = inherit({
 		// Write test results as parsable JSON file 
 		fs.writeFile('gemini-bamboo.json', JSON.stringify(this.results, null, 2));
     },
+
+	_createResult: function(result){
+		var obj = {};
+		obj.title = result.state.name;
+		obj.fullTitle = result.suite.path.join(' ');
+		obj.browserID = result.browserId;
+		obj.duration = this._getDuration();
+		this.suiteSet[result.suite.name] = true;
+		return obj;
+	},
 	
 	_getDuration: function(){
 		var now = new Date();
