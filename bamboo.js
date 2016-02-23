@@ -103,7 +103,7 @@ var Runner = inherit({
 
 	_createResult: function(result){
 		var obj = {};
-		obj.title = result.state.name;
+		obj.title = result.state ? result.state.name : "unknown";
 		obj.fullTitle = result.suite.path.join(' ');
 		obj.browserID = result.browserId;
 		obj.duration = this._getDuration();
