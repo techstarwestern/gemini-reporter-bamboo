@@ -5,7 +5,7 @@ var inherit = require('inherit'),
     chalk = require('chalk'),
 	fs = require('fs'),
 
-    RunnerEvents = require('../gemini/lib/constants/runner-events'),
+    RunnerEvents = require('../gemini/lib/constants/events'),
 
     ICON_SUCCESS = chalk.green('\u2713'),
     ICON_FAIL = chalk.red('\u2718'),
@@ -97,7 +97,7 @@ var Runner = inherit({
 			"end": endTime.toISOString(),
 			"duration": Math.round((endTime - this.startTime) / 1000)
 		};
-		// Write test results as parsable JSON file 
+		// Write test results as parsable JSON file
 		fs.writeFile('gemini-bamboo.json', JSON.stringify(this.results, null, 2));
     },
 
@@ -110,7 +110,7 @@ var Runner = inherit({
 		this.suiteSet[result.suite.name] = true;
 		return obj;
 	},
-	
+
 	_getDuration: function(){
 		var now = new Date();
 		var duration = Math.round((now - this.beginTestTime) / 1000);
