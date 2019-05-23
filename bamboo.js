@@ -13,10 +13,9 @@ var inherit = require('inherit'),
 
 var Runner = inherit({
     attachRunner: function(runner) {
+        runner.on(RunnerEvents.TEST_RESULT, this._onTestResult.bind(this));
         runner.on(RunnerEvents.BEGIN, this._onBegin.bind(this));
         runner.on(RunnerEvents.END_TEST, this._onEndTest.bind(this));
-        runner.on(RunnerEvents.CAPTURE, this._onCapture.bind(this));
-        runner.on(RunnerEvents.ERROR, this._onError.bind(this));
         runner.on(RunnerEvents.WARNING, this._onWarning.bind(this));
         runner.on(RunnerEvents.END, this._onEnd.bind(this));
         runner.on(RunnerEvents.INFO, this._onInfo.bind(this));
@@ -47,10 +46,15 @@ var Runner = inherit({
         handler.call(this, result);
     },
 
-    _onCapture: function(result) {
+    _onTestResult(result) {
+			const handler = result.equal ? this._onPassed : this._onError;
+			handler.call(this, result);
+	},
+
+    _onPassed: function(result) {
 		var pass = this._createResult(result);
 		this.results.passes.push(pass);
-    },
+	},
 
     _onError: function(result) {
 		var error = this._createResult(result);
