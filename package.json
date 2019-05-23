@@ -1,6 +1,6 @@
 {
   "name": "gemini-reporter-bamboo",
-  "version": "1.0.3",
+  "version": "7.0.0",
   "description": "Plugin for Gemini which enables reporting test results to Bamboo.",
   "main": "bamboo.js",
   "dependencies": {
